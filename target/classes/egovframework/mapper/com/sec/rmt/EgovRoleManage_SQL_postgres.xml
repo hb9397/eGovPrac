@@ -64,8 +64,8 @@
                   , #{roleDc}
                   , #{roleTyp}
                   , #{roleSort}
-				  , TO_CHAR(NOW(), 'YYYY-mm-dd HH24:MI:SS'))
-		
+                  , CURRENT_TIMESTAMP)
+<!-- 				  , TO_CHAR(NOW(), 'YYYY-mm-dd HH24:MI:SS')) -->		
 	</insert>
 
 	<update id="updateRole" parameterType="egovframework.com.sec.rmt.service.RoleManage">
@@ -76,7 +76,8 @@
                  , ROLE_DC=#{roleDc}
                  , ROLE_TY=#{roleTyp}
                  , ROLE_SORT=#{roleSort}
-				 , ROLE_CREAT_DE=TO_CHAR(NOW(), 'YYYY-mm-dd HH24:MI:SS')
+                 , ROLE_CREAT_DE=CURRENT_TIMESTAMP
+<!-- 				 , ROLE_CREAT_DE=TO_CHAR(NOW(), 'YYYY-mm-dd HH24:MI:SS') -->
 		  	 WHERE ROLE_CODE=#{roleCode}
 		
 	</update>
