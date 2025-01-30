@@ -601,6 +601,14 @@
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/onepass-client-2.0.0.jar</systemPath>
 		</dependency>
 		<!-- 디지털원패스 라이브러리 끝 -->
+		
+		<!--Lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.24</version>
+		    <scope>provided</scope>
+		</dependency>
 
     </dependencies>
 
