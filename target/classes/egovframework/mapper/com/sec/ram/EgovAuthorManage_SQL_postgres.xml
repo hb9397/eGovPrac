@@ -32,7 +32,8 @@
            VALUES ( #{authorCode}
                   , #{authorNm}
                   , #{authorDc}
-                  , TO_CHAR(now(), 'YYYY-mm-dd HH24:MI:SS'))
+                  , CURRENT_TIMESTAMP)
+<!--                   , TO_CHAR(now(), 'YYYY-mm-dd HH24:MI:SS')) -->
          
     </insert>
 
