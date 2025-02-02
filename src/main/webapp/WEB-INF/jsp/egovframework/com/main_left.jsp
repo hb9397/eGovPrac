@@ -35,14 +35,31 @@ var getContextPath = "${pageContext.request.contextPath}";
 var path = "http://" + "${pageContext.request.serverName}" + ":" + "${pageContext.request.serverPort}";
 </script>
 <script language="javascript1.2" src="<c:url value='/js/egovframework/com/sym/mnu/mpm/EgovMainMenu.js' />" /></script>
+
+<script type="text/javascript">
+    var menuList = [];
+
+    <c:forEach var="result" items="${list_menulist}">
+        menuList.push({
+            menuNo: "${result.menuNo}",
+            upperMenuId: "${result.upperMenuId}",
+            menuNm: "${result.menuNm}",
+            relateImagePath: "${result.relateImagePath}",
+            relateImageNm: "${result.relateImageNm}",
+            chkURL: "${pageContext.request.contextPath}${result.chkURL}"
+        });
+    </c:forEach>
+	
+</script>
+
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight= "0">
 <form name="menuListForm" action ="<c:url value='/sym/mnu/mpm/EgovMenuListSelect.do' />" method="post">
 <DIV id="main" style="display:">
 
-<table width="250" cellpadding="8" class="table-search" border="0">
+<table width="100%" cellpadding="8" class="table-search" border="0">
   <tr>
-    <td width="250" class="title_left" >
+    <td  class="title_left" >
         <div style="width:0px; height:0px;">
 		<c:forEach var="result" items="${list_menulist}" varStatus="status" >
 		<input type="hidden" name="tmp_menuNm" value="${result.menuNo}|${result.upperMenuId}|${result.menuNm}|${result.relateImagePath}|${result.relateImageNm}|${pageContext.request.contextPath}${result.chkURL}|"/>

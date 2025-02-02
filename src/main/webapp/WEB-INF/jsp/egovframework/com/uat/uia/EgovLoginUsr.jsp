@@ -173,7 +173,7 @@ function fnInit() {
     
     getid(document.loginForm);
     
-    fnLoginTypeSelect("typeGnr");
+    fnLoginTypeSelect("typeEnt");
 
     <c:if test="${not empty fn:trim(loginMessage) &&  loginMessage ne ''}">
     alert("loginMessage:<c:out value='${loginMessage}'/>");
@@ -239,12 +239,12 @@ function fnOnepassLogin() {
 	
 	<fieldset>
 
-		<img src="<c:url value='/images/egovframework/com/uat/uia/login_tit.png'/>" style="margin:30px 0 0px 60px" alt="login title image"  title="login title image">
+		<img src="<c:url value='/images/egovframework/com/uat/uia/login_tit.png'/>" style="margin:10px" alt="login title image"  title="login title image">
 		<div class="login_type">
 			<ul id="ulLoginType">
-				<li><a href="javascript:fnLoginTypeSelect('typeGnr');" id="typeGnr" title=""><spring:message code="comUatUia.loginForm.GNR"/></a></li> <!-- 일반 -->
-				<li><a href="javascript:fnLoginTypeSelect('typeEnt');" id="typeEnt" title=""><spring:message code="comUatUia.loginForm.ENT"/></a></li> <!-- 기업 -->
-				<li><a href="javascript:fnLoginTypeSelect('typeUsr');" id="typeUsr" title=""><spring:message code="comUatUia.loginForm.USR"/></a></li> <!-- 업무 -->
+				<li><a href="javascript:fnLoginTypeSelect('typeEnt');" id="typeEnt" title=""><spring:message code="comUatUia.loginForm.ENT"/></a></li> <!-- 기업 -> 신고기업 -->
+				<li><a href="javascript:fnLoginTypeSelect('typeGnr');" id="typeGnr" title=""><spring:message code="comUatUia.loginForm.ASO"/></a></li> <!-- 일반 -> 협회 -->
+				<li><a href="javascript:fnLoginTypeSelect('typeUsr');" id="typeUsr" title=""><spring:message code="comUatUia.loginForm.ADM"/></a></li> <!-- 업무 -> 관리자 -->
 			</ul>
 		</div>
 	
@@ -253,13 +253,13 @@ function fnOnepassLogin() {
 				<!-- 아이디 -->
 				<c:set var="title"><spring:message code="comUatUia.loginForm.id"/></c:set>
 				<li>
-					<label for="id">${title}</label>
+					<%-- <label for="id">${title}</label> --%>
 					<input type="text" name="id" id="id" maxlength="20" title="${title} ${inputTxt}" placeholder="${title} ${inputTxt}">
 				</li>
 				<!-- 비밀번호 -->
 				<c:set var="title"><spring:message code="comUatUia.loginForm.pw"/></c:set>
 				<li>
-					<label for="password">${title}</label>
+					<%-- <label for="password">${title}</label> --%>
 					<input type="password" name="password" id="password" maxlength="20" title="${title} ${inputTxt}" placeholder="${title} ${inputTxt}">
 				</li>
 				<!-- 아이디 저장 -->
@@ -271,17 +271,12 @@ function fnOnepassLogin() {
 					<input type="button" class="btn_login" value="<spring:message code="comUatUia.loginForm.login"/>" onclick="actionLogin()"> <!-- 로그인  -->
 				</li>
 				<li>
-					<ul class="btn_idpw" >
-						<li><a href="#" onclick="goRegiUsr(); return false;"><spring:message code="comUatUia.loginForm.regist"/></a></li> <!-- 회원가입  -->
-					</ul>
+    				<input type="button" class="btn_register" value="<spring:message code='comUatUia.loginForm.regist'/>" onclick="goRegiUsr();">
 				</li>
-				<li>
-					<ul class="btn_idpw" >
-						<li><a href="#" onclick="fnShowLogin(1);"><spring:message code="comUatUia.loginForm.login.gpki"/></a></li><!-- 인증서로그인 -->
-						<li><a href="<c:url value='/uat/uia/egovGpkiIssu.do'/>"><spring:message code="comUatUia.loginForm.gpki.info"/></a></li><!-- 인증서안내 -->
-					</ul>
+				<li class="btn_cert">
+				    <input type="button" class="btn_white" value="<spring:message code='comUatUia.loginForm.login.gpki'/>" onclick="fnShowLogin(1);">
+				    <input type="button" class="btn_white" value="<spring:message code='comUatUia.loginForm.gpki.info'/>" onclick="location.href='<c:url value='/uat/uia/egovGpkiIssu.do'/>';">
 				</li>
-				
 			</ul>
 		</div>
 		
@@ -299,7 +294,7 @@ function fnOnepassLogin() {
 						<li><a href="#" onclick="fnShowLogin(0);"><spring:message code="comUatUia.loginForm.login.normal"/></a></li><!-- 일반로그인 -->
 					</ul>
 					<ul class="btn_idpw" >
-						<li>※ <spring:message code="comUatUia.loginForm.gpki.descrption"/></li>
+						<li> <spring:message code="comUatUia.loginForm.gpki.descrption"/></li>
 					</ul>
 				</li>
 			</ul>
@@ -312,13 +307,13 @@ function fnOnepassLogin() {
 	</form>
 
 	<!-- 2021.05.30, 정진오, 디지털원패스 로그인 추가 -->
-	<div style="border:2px solid #e6e6e6; margin-top:20px;">
+	<div style="border:2px solid #e6e6e6; margin-top:5px;">
 		<form id="onepassForm" name="onepassForm" method="post">
 		<input type="hidden" id="serviceType" name="serviceType"/>
 		</form>
 		<ul style="margin:10px 0px 10px;">
 			<li style="text-align:center;">
-				하나의 아이디로 간편하게
+				<!-- 하나의 아이디로 간편하게 -->
 				<a href="#" onclick="javascript:fnOnepassLogin();"><img src="<c:url value='/images/egovframework/com/uat/uia/onepass.png'/>" alt="디지털원패스 로그인" title="디지털원패스 로그인"></a>
 			</li>
 		</ul>

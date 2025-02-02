@@ -1,0 +1,130 @@
+@charset "UTF-8";
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #666;
+    color: white;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input{
+	width: 40%;
+}
+
+.header-container {
+    margin-bottom: 20px;
+}
+
+.container {
+    width: 95%;
+    margin: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.search-section {
+    padding: 15px;
+    background-color: #eef2f7;
+    border-radius: 1rem;
+    margin-top: 20px;
+}
+
+.yearSelector{
+	text-align: center;
+	height: 1.39rem;
+}
+
+.results-section {
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 1rem;
+}
+
+.long_btn{
+	width: 100%;
+	background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+.long_btn:hover {
+    background-color: #0056b3;
+}
+.table-header {
+    background-color: #444; 
+    color: white;
+    font-size: 1rem; 
+    font-weight: bold;
+    padding: 0.5rem;
+}
+
+.table-cell {
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 0.5rem;
+}
+
+.pagination-button {
+    height: 30px;
+    width: 30px; 
+    margin: 0 5px; 
+    border: none;
+    border-radius: 5px; 
+    font-size: 16px;
+    font-weight: normal;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination-button.active {
+    font-weight: bold;
+    background-color: #0056b3;
+}
+
+.pagination-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}

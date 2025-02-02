@@ -184,6 +184,7 @@ public class EgovMainMenuManageController {
 
     	List<?> list_menulist = menuManageService.selectMainMenuLeft(menuManageVO);
         model.addAttribute("list_menulist", list_menulist);
+        LOGGER.info(list_menulist.toString());
       	return "egovframework/com/main_left";
     }
 

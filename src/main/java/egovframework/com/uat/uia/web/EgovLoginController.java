@@ -296,7 +296,7 @@ public class EgovLoginController {
 
 		LOGGER.debug("Globals.MAIN_PAGE > " + Globals.MAIN_PAGE);
 		LOGGER.debug("main_page > {}", main_page);
-
+		LOGGER.info("main_page > {}", main_page);
 		if (main_page.startsWith("/")) {
 			return "forward:" + main_page;
 		} else {
