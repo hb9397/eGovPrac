@@ -1,4 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="ui" uri="http://egovframework.gov/ctl/ui"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page import="java.util.List, java.util.Map, java.util.ArrayList, java.util.HashMap" %>
 <%@ page import="com.google.gson.Gson" %>
 
@@ -7,8 +11,8 @@
 <head>
     <meta charset="UTF-8">
     <title>수행실적목록 조회</title>
-    <link rel="stylesheet" type="text/css" href="/css/egovframework/com/pms/epr/EPRExcPerRepMngt.css">
-	<%
+    <link rel="stylesheet" type="text/css" href="/css/egovframework/com/lhb/epr/EPRExcPerRepMngt.css">
+<%-- 	<%
 	    // 임시 데이터 생성
 	    List<Map<String, String>> tempData = new ArrayList<>();
 	
@@ -28,22 +32,22 @@
 	    // Gson을 사용하여 JSON 문자열 변환
 	    Gson gson = new Gson();
 	    String jsonData = gson.toJson(tempData);
-	%>
+	%> --%>
 	<script>
-		const tempData = <%= jsonData %>;	
-	
+		const result = ${eprExcPerRepMngList};	
+		console.log(result);
 	    // 특정 페이지의 데이터 가져오기
 	    function fetchData(page) {
 	    	// 한 페이지당 10개 항목
 	        const pageSize = 10; 
 	    	
 	     	// 전체 페이지 수 계산
-	        const totalPages = Math.ceil(tempData.length / pageSize); 
+	        const totalPages = Math.ceil(result.length / pageSize); 
 	        const start = (page - 1) * pageSize;
-	        const end = Math.min(start + pageSize, tempData.length);
+	        const end = Math.min(start + pageSize, result.length);
 	        
 	        // 현재 페이지에 해당하는 데이터 가져오기
-	        let items = tempData.slice(start, end);
+	        let items = result.slice(start, end);
 
 	        // 데이터가 부족하면 행 추가
 	        while (items.length < pageSize) {
@@ -58,12 +62,12 @@
 
 	    // 데이터 로드 및 테이블, 페이지네이션 업데이트
 	    function loadData(page) {
-	    	// 임시 데이터 가져오기
+	    	// 데이터 가져오기
 	        let data = fetchData(page); 
 	     	// 테이블 업데이트
-	        renderTable(data.items); 
+	        renderTable(result.items); 
 	     	// 페이지네이션 업데이트	
-	        renderPagination(data.totalPages, page); 
+	        renderPagination(result.totalPages, page); 
 	    }
 
 	    // 테이블을 생성하여 데이터를 삽입하는 함수
@@ -167,8 +171,6 @@
 		    }
 		}
 
-
-
 	    // 페이지가 로드될 때 첫 번째 페이지의 데이터 가져오기
 	    window.onload = () => {
 	        loadData(1);
@@ -177,9 +179,9 @@
 </head>
 <body>
     <div class="header-container">
-        <jsp:include page="/WEB-INF/jsp/egovframework/com/head.jsp" />
+        <c:import url="../../head.jsp" />
     </div>
-    
+
     <div class="container">
         <h2>수행실적목록 조회</h2>
         <div class="search-section">

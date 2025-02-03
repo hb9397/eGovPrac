@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="eprExcPerRepMngtDAO">
+
+    <resultMap id="eprExcPerRepMngt" type="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO">
+        <result property="excPerRepSeq" column="EXC_PER_REP_SEQ"/>
+        <result property="excPerRepName" column="EXC_PER_REP_NAME"/>
+        <result property="progrsStatCode" column="PROGRS_STAT_CODE"/>
+        <result property="excDate" column="EXC_DATE"/>
+    </resultMap>
+
+    <sql id="searchChk">
+    	AND DEL_DATE IS NULL
+    	<if test="excPerRepName != null">
+        	AND EXC_PER_REP_NAME = #{excPerRepName}
+        </if>
+        <if test="excDate != null">
+        	AND EXC_DATE = #{excDate}
+        </if>
+    </sql>
+
+    
+    <!-- 데이터 카운트  -->
+    <select id="selectEPRExcPerRepMngtListTotCnt" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultType="int">
+            SELECT COUNT(*) totcnt
+            FROM TB_EXC_REC_REP
+            WHERE 1=1
+            <include refid = "searchChk"/>
+    </select>
+    
+    <!-- 데이터 조회  -->
+    <select id="selectEPRExcPerRepMngtList" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultMap="eprExcPerRepMngt">
+            SELECT
+            	EXC_PER_REP_SEQ, EXC_PER_REP_NAME, PROGRS_STAT_CODE, EXC_DATE
+            FROM TB_EXC_REC_REP
+            WHERE 1=1
+            <include refid = "searchChk"/>
+            ORDER BY AUTHOR_CREAT_DE DESC
+            LIMIT #{recordCountPerPage} OFFSET #{firstIndex}      
+    </select>
+</mapper>

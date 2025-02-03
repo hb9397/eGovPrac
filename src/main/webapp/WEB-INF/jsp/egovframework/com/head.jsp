@@ -113,6 +113,11 @@ document.addEventListener("DOMContentLoaded", function() {
         <ul>
             <li><a href="<c:url value='/sym/mnu/mpm/EgovMainMenuHome.do' />" target="_top">HOME</a></li>
             <c:forEach var="result" items="${list_headmenu}" varStatus="status">
+            <script>
+    var menuList = ${list_headmenu};
+    console.log(menuList);
+</script>
+            
                 <li class="gap"> l </li>
                 <li>
                     <a href="javascript:fn_main_headPageMove('<c:out value="${result.menuNo}"/>','<c:out value="${result.chkURL}"/>')">
