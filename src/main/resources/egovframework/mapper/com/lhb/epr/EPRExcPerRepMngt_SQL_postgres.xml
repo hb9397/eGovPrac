@@ -16,7 +16,7 @@
     <sql id="searchChk">
     	AND DEL_DATE IS NULL
     	<if test="excPerRepName != null and excPerRepName !=''">
-        	AND EXC_PER_REP_NAME = #{excPerRepName}
+        	AND EXC_PER_REP_NAME LIKE '%' || #{excPerRepName} || '%'
         </if>
         <if test="excDate != null and excDate != ''">
         	AND TO_CHAR(EXC_DATE, 'YYYY') = #{excDate}
