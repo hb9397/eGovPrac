@@ -215,7 +215,7 @@ function fn_egov_list(){
 
 
 <input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
-</form>
+</>
 <form name="Form" id="Form" method="post" action="">
 	<input type=hidden name="zip">
 	<input type=hidden name="sn" value="0">

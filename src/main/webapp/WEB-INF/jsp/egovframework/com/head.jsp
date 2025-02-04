@@ -7,7 +7,7 @@
 
 <script language="text/javascript" src="<c:url value='/js/egovframework/com/main.js' />"></script>
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/main_portal.css' />">
-<link type="text/css" rel="stylesheet" href="/egovframework-all-in-one/css/egovframework/com/cmm/jqueryui.css">
+<link type="text/css" rel="stylesheet" href="/css/egovframework/com/cmm/jqueryui.css">
 
 <script src="<c:url value='/js/egovframework/com/cmm/jquery.js' />"></script>
 <script src="<c:url value='/js/egovframework/com/cmm/jqueryui.js' />"></script>

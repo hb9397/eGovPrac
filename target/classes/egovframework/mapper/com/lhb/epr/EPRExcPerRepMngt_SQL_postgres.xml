@@ -7,15 +7,19 @@
         <result property="excPerRepName" column="EXC_PER_REP_NAME"/>
         <result property="progrsStatCode" column="PROGRS_STAT_CODE"/>
         <result property="excDate" column="EXC_DATE"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="regID" column="REG_ID"/>
+        <result property="cngDate" column="CNG_DATE"/>
+        <result property="cngID" column="CNG_ID"/>
     </resultMap>
 
     <sql id="searchChk">
     	AND DEL_DATE IS NULL
-    	<if test="excPerRepName != null">
+    	<if test="excPerRepName != null and excPerRepName !=''">
         	AND EXC_PER_REP_NAME = #{excPerRepName}
         </if>
-        <if test="excDate != null">
-        	AND EXC_DATE = #{excDate}
+        <if test="excDate != null and excDate != ''">
+        	AND TO_CHAR(EXC_DATE, 'YYYY') = #{excDate}
         </if>
     </sql>
 
@@ -31,11 +35,14 @@
     <!-- 데이터 조회  -->
     <select id="selectEPRExcPerRepMngtList" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultMap="eprExcPerRepMngt">
             SELECT
-            	EXC_PER_REP_SEQ, EXC_PER_REP_NAME, PROGRS_STAT_CODE, EXC_DATE
+            	EXC_PER_REP_SEQ, EXC_PER_REP_NAME, PROGRS_STAT_CODE
+            	, TO_CHAR(EXC_DATE, 'YYYY') AS EXC_DATE
+            	, TO_CHAR(REG_DATE, 'YYYY-MM-DD HH24:MI:SS.MM') AS REG_DATE, REG_ID
+            	, TO_CHAR(CNG_DATE, 'YYYY-MM-DD HH24:MI:SS.MM') AS CNG_DATE, CNG_ID
             FROM TB_EXC_REC_REP
             WHERE 1=1
             <include refid = "searchChk"/>
-            ORDER BY AUTHOR_CREAT_DE DESC
+            ORDER BY EXC_DATE DESC
             LIMIT #{recordCountPerPage} OFFSET #{firstIndex}      
     </select>
 </mapper>

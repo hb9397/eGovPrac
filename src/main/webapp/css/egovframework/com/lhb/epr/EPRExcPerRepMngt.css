@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@charset "utf-8";
 
 body {
     font-family: Arial, sans-serif;
@@ -101,12 +101,12 @@ input{
     padding: 0.5rem;
 }
 
-.pagination-button {
+.pagination a {
     height: 30px;
-    width: 30px; 
-    margin: 0 5px; 
+    width: 30px;
+    margin: 0 5px;
     border: none;
-    border-radius: 5px; 
+    border-radius: 5px;
     font-size: 16px;
     font-weight: normal;
     cursor: pointer;
@@ -117,14 +117,15 @@ input{
     background-color: #007bff;
     color: white;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
 }
 
-.pagination-button.active {
+.pagination a.active {
     font-weight: bold;
     background-color: #0056b3;
 }
 
-.pagination-button:hover {
+.pagination a:hover {
     background-color: #0056b3;
     transform: scale(1.1);
 }

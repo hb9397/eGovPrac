@@ -31,7 +31,7 @@ public class EPRExcPerRepMngtController {
 	
 	private final EPRExcPerRepMngtService eprExcPerRepMngtService;
 	
-    @GetMapping("/EPRExcPerRepMngt.do")
+    @RequestMapping("/EPRExcPerRepMngt.do")
     public String selectEPRExcPerRepMngtList(@ModelAttribute("eprExcPerRepMngtVO") EPRExcPerRepMngtVO eprExcPerRepMngtVO, 
     			ModelMap model) throws Exception {
     	
