@@ -14,11 +14,10 @@
 <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/lhb/epr/EPRExcPerRepMngt.css' />">
 
 <script>
-	function fncSelectEPRExcPerRepMngtList(pageNo) {
-	    document.listForm.searchCondition.value = "1";
-	    document.listForm.pageIndex.value = pageNo;
+	function fncSelectEPRExcPerRepMngtList() {
+	    document.listForm.pageIndex.value = 1;
+	    document.listForm.action = "<c:url value='/lhb/epr/EPRExcPerRepMngt.do'/>";
 		document.listForm.submit();
-		console.log(pageNo)	    
 	}
 	function linkPage(pageNo) {
 		document.listForm.pageIndex.value = pageNo;
@@ -31,6 +30,17 @@
 			fncSelectAuthorList('1');
 		}
 	}
+	function openModal() {
+	    document.getElementById("excPerModal").style.display = "flex";
+	}
+
+	function closeModal() {
+	    document.getElementById("excPerModal").style.display = "none";
+	}
+	function fncAddEPRExcPerRepMngtInsert() {
+		document.listForm.action = ("<c:url value='/lhb/epr/insertExcPerRep.do'/>");
+		document.listForm.submit();
+	}
 </script>
 </head>
 
@@ -38,9 +48,10 @@
 	<noscript class="noScriptTitle">
 		<spring:message code="common.noScriptTitle.msg" />
 	</noscript>
-		<div class="header-container">
-			<c:import url="../../head.jsp" />
-		</div>
+	<div class="header-container">
+		<jsp:include page="../../head.jsp" />
+	</div>
+
 	<form name="listForm" action="<c:url value='/lhb/epr/EPRExcPerRepMngt.do'/>" method="post">
 
 
@@ -91,20 +102,20 @@
 					<!-- listForm에 hidden input 추가 -->
 					<input type="hidden" name="excDate" id="selectedYear" value="<c:out value='${eprExcPerRepMngtVO.excDate}'/>" />
 
-					
+
 				</div>
 				<div style="margin-bottom: 1rem">
 					<label>수행명</label> <input type="text" style="margin-left: 0.8rem" name="excPerRepName" value="<c:out value='${eprExcPerRepMngtVO.excPerRepName}'/>">
 				</div>
 				<div>
-					<input type="submit" class="long_btn" value="조회" title="조회"/>
+					<input type="submit" class="long_btn" value="조회" title="조회" onClick="fncSelectEPRExcPerRepMngtList();" />
 				</div>
 			</div>
 
 			<div class="results-section mt10">
 				<div style="width: 100%; display: flex; justify-content: space-between; align-items: center">
 					<h3>▶ 수행실적 조회내역</h3>
-					<button class="btn">등록</button>
+					<button type="button" class="btn" onClick="openModal();">등록</button>
 				</div>
 				<table>
 					<thead>
@@ -133,7 +144,7 @@
 
 								<td class="table-cell"><c:out value="${eprExcPerRepMngList.excDate}" /></td>
 								<td class="table-cell"><c:out value="${eprExcPerRepMngList.excPerRepName}" /></td>
-								<td class="table-cell"><c:out value="${eprExcPerRepMngList.progrsStatCode}" /></td>
+								<td class="table-cell"><c:out value="${eprExcPerRepMngList.progrsStatName}" /></td>
 								<td class="table-cell"><c:choose>
 										<c:when test="${not empty eprExcPerRepMngList.cngDate}">
 											<c:out value="${eprExcPerRepMngList.cngDate}" />
@@ -161,9 +172,30 @@
 		<input type="hidden" name="excPerRepName" value="<c:out value='${eprExcPerRepMngtVO.excPerRepName}'/>" /> --%>
 		<!-- <input type="submit" value="조회"> -->
 	</form>
-	<form name="Form" id="Form" method="post" action="">
-		<input type=hidden name="excDate"> 
-		<input type=hidden name="excPerRepName"> 
-	</form>
+
+
+
+<%-- 	<form name="Form" id="Form" method="post" action="">
+		<input type=hidden name="excDate"> <input type=hidden name="excPerRepName">
+	</form> --%>
+	
+		<!-- 모달 창 -->
+	<div id="excPerModal" class="modal" style="display: none;">
+		<div class="modal-content">
+			<span class="close-btn" onclick="closeModal()">&times;</span>
+			<h2 style="margin-bottom: 20px">수행실적 신고 등록</h2>
+			<form id="excPerForm">
+				<label for="excDate"><span class="required">*</span> 수행년도</label>
+				<input type="text" id="excDate" name="excDate" value="<c:out value='${eprExcPerRepMngtVO.excDate}'/>">
+				<label for="excPerRepName"><span class="required">*</span> 수행 명</label>
+				<input type="text" id="excPerRepName" name="excPerRepName" value="<c:out value='${eprExcPerRepMngtVO.excPerRepName}'/>">
+
+				<div class="button-container">
+					<button type="button" class="btn-save" onClick="fncAddEPRExcPerRepMngtInsert();">저장</button>
+					<button type="button" class="btn-cancel" onclick="closeModal()">취소</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </body>
 </html>

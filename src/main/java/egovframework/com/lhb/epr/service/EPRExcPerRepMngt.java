@@ -16,6 +16,8 @@ public class EPRExcPerRepMngt extends ComDefaultVO{
 	
 	private String progrsStatCode;
 	
+	private String progrsStatName;
+	
 	private String excDate;
 	
 	private String regDate;
@@ -25,4 +27,5 @@ public class EPRExcPerRepMngt extends ComDefaultVO{
 	private String cngDate;
 	
 	private String cngID;
+	
 }

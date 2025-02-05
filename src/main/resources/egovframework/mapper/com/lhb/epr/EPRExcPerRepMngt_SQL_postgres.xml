@@ -6,11 +6,13 @@
         <result property="excPerRepSeq" column="EXC_PER_REP_SEQ"/>
         <result property="excPerRepName" column="EXC_PER_REP_NAME"/>
         <result property="progrsStatCode" column="PROGRS_STAT_CODE"/>
+        <result property="progrsStatName" column="PROGRS_STAT_NAME"/>
         <result property="excDate" column="EXC_DATE"/>
         <result property="regDate" column="REG_DATE"/>
         <result property="regID" column="REG_ID"/>
         <result property="cngDate" column="CNG_DATE"/>
         <result property="cngID" column="CNG_ID"/>
+        
     </resultMap>
 
     <sql id="searchChk">
@@ -26,16 +28,19 @@
     
     <!-- 데이터 카운트  -->
     <select id="selectEPRExcPerRepMngtListTotCnt" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultType="int">
-            SELECT COUNT(*) totcnt
+            SELECT COUNT(EXC_PER_REP_SEQ) AS totcnt
             FROM TB_EXC_REC_REP
             WHERE 1=1
             <include refid = "searchChk"/>
     </select>
     
-    <!-- 데이터 조회  -->
+    <!-- 수행실적 목록 조회  -->
     <select id="selectEPRExcPerRepMngtList" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultMap="eprExcPerRepMngt">
             SELECT
-            	EXC_PER_REP_SEQ, EXC_PER_REP_NAME, PROGRS_STAT_CODE
+            	EXC_PER_REP_SEQ
+            	, EXC_PER_REP_NAME
+            	, PROGRS_STAT_CODE
+            	, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE = PROGRS_STAT_CODE AND CODE_ID = 'PMS001') AS PROGRS_STAT_NAME
             	, TO_CHAR(EXC_DATE, 'YYYY') AS EXC_DATE
             	, TO_CHAR(REG_DATE, 'YYYY-MM-DD HH24:MI:SS.MM') AS REG_DATE, REG_ID
             	, TO_CHAR(CNG_DATE, 'YYYY-MM-DD HH24:MI:SS.MM') AS CNG_DATE, CNG_ID
@@ -45,4 +50,19 @@
             ORDER BY EXC_DATE DESC
             LIMIT #{recordCountPerPage} OFFSET #{firstIndex}      
     </select>
+    
+    <!-- 수행실적 신고 등록  -->
+    <insert id="insertEPRExcPerRepMngt" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO">
+        
+            INSERT INTO TB_EXC_REC_REP 
+                  ( EXC_DATE
+                  , EXC_PER_REP_NAME
+                  , PROGRS_STAT_CODE
+                  , REG_DATE)
+           VALUES ( 
+           			TO_DATE(#{excDate}, 'YYYY-MM-DD') 
+                  , #{excPerRepName}
+                  , '0001'
+                  , CURRENT_TIMESTAMP)         
+    </insert>    
 </mapper>

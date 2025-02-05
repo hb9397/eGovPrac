@@ -24,4 +24,8 @@ public class EPRExcPerRepMngtServiceImpl extends EgovAbstractServiceImpl impleme
 		return eprExcPerRepMngtDAO.selectEPRExcPerRepMngtList(eprExcPerRepMngtVO);
 	}
 
+	@Override
+	public void insertEPRExcPerRepMngt(EPRExcPerRepMngtVO eprExcPerRepMngtVO) throws Exception {
+		eprExcPerRepMngtDAO.insertEPRExcPerRepMngt(eprExcPerRepMngtVO);
+	}
 }
