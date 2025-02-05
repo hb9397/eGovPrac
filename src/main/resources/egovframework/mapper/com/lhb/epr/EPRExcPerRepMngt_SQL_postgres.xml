@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eprExcPerRepMngtDAO">
 
-    <resultMap id="eprExcPerRepMngt" type="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO">
+    <resultMap id="eprExcPerRepMngtVO" type="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO">
         <result property="excPerRepSeq" column="EXC_PER_REP_SEQ"/>
         <result property="excPerRepName" column="EXC_PER_REP_NAME"/>
         <result property="progrsStatCode" column="PROGRS_STAT_CODE"/>
@@ -17,11 +17,11 @@
 
     <sql id="searchChk">
     	AND DEL_DATE IS NULL
-    	<if test="excPerRepName != null and excPerRepName !=''">
-        	AND EXC_PER_REP_NAME LIKE '%' || #{excPerRepName} || '%'
+    	<if test="searchExcPerRepName != null and searchExcPerRepName !=''">
+        	AND EXC_PER_REP_NAME LIKE '%' || #{searchExcPerRepName} || '%'
         </if>
-        <if test="excDate != null and excDate != ''">
-        	AND TO_CHAR(EXC_DATE, 'YYYY') = #{excDate}
+        <if test="searchExcDate != null and searchExcDate != ''">
+        	AND TO_CHAR(EXC_DATE, 'YYYY') = #{searchExcDate}
         </if>
     </sql>
 
@@ -35,7 +35,7 @@
     </select>
     
     <!-- 수행실적 목록 조회  -->
-    <select id="selectEPRExcPerRepMngtList" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultMap="eprExcPerRepMngt">
+    <select id="selectEPRExcPerRepMngtList" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultMap="eprExcPerRepMngtVO">
             SELECT
             	EXC_PER_REP_SEQ
             	, EXC_PER_REP_NAME

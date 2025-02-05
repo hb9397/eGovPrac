@@ -27,5 +27,5 @@ public class EPRExcPerRepMngt extends ComDefaultVO{
 	private String cngDate;
 	
 	private String cngID;
-	
+
 }
