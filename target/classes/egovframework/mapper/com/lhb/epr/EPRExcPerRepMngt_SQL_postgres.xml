@@ -2,67 +2,181 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="eprExcPerRepMngtDAO">
 
-    <resultMap id="eprExcPerRepMngtVO" type="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO">
-        <result property="excPerRepSeq" column="EXC_PER_REP_SEQ"/>
-        <result property="excPerRepName" column="EXC_PER_REP_NAME"/>
-        <result property="progrsStatCode" column="PROGRS_STAT_CODE"/>
-        <result property="progrsStatName" column="PROGRS_STAT_NAME"/>
-        <result property="excDate" column="EXC_DATE"/>
-        <result property="regDate" column="REG_DATE"/>
-        <result property="regID" column="REG_ID"/>
-        <result property="cngDate" column="CNG_DATE"/>
-        <result property="cngID" column="CNG_ID"/>
-        
-    </resultMap>
+	<resultMap id="eprExcPerRepMngtVO" type="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO">
+		<result property="excPerRepSeq" column="EXC_PER_REP_SEQ" />
+		<result property="excPerRepName" column="EXC_PER_REP_NAME" />
+		<result property="progrsStatCode" column="PROGRS_STAT_CODE" />
+		<result property="progrsStatName" column="PROGRS_STAT_NAME" />
+		<result property="excDate" column="EXC_DATE" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="regID" column="REG_ID" />
+		<result property="cngDate" column="CNG_DATE" />
+		<result property="cngID" column="CNG_ID" />
 
-    <sql id="searchChk">
-    	AND DEL_DATE IS NULL
-    	<if test="searchExcPerRepName != null and searchExcPerRepName !=''">
-        	AND EXC_PER_REP_NAME LIKE '%' || #{searchExcPerRepName} || '%'
-        </if>
-        <if test="searchExcDate != null and searchExcDate != ''">
-        	AND TO_CHAR(EXC_DATE, 'YYYY') = #{searchExcDate}
-        </if>
-    </sql>
+	</resultMap>
+	
+	<sql id="searchChkEPRExcPerRepMngtList">
+		AND DEL_DATE IS NULL
+		<if test="searchExcPerRepName != null and searchExcPerRepName !=''">
+			AND EXC_PER_REP_NAME LIKE '%' || #{searchExcPerRepName} || '%'
+		</if>
+		<if test="searchExcDate != null and searchExcDate != ''">
+			AND TO_CHAR(EXC_DATE, 'YYYY') = #{searchExcDate}
+		</if>
+	</sql>
 
-    
-    <!-- 데이터 카운트  -->
-    <select id="selectEPRExcPerRepMngtListTotCnt" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultType="int">
-            SELECT COUNT(EXC_PER_REP_SEQ) AS totcnt
-            FROM TB_EXC_REC_REP
-            WHERE 1=1
-            <include refid = "searchChk"/>
-    </select>
-    
-    <!-- 수행실적 목록 조회  -->
-    <select id="selectEPRExcPerRepMngtList" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO" resultMap="eprExcPerRepMngtVO">
-            SELECT
-            	EXC_PER_REP_SEQ
-            	, EXC_PER_REP_NAME
-            	, PROGRS_STAT_CODE
-            	, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE = PROGRS_STAT_CODE AND CODE_ID = 'PMS001') AS PROGRS_STAT_NAME
-            	, TO_CHAR(EXC_DATE, 'YYYY') AS EXC_DATE
-            	, TO_CHAR(REG_DATE, 'YYYY-MM-DD HH24:MI:SS.MM') AS REG_DATE, REG_ID
-            	, TO_CHAR(CNG_DATE, 'YYYY-MM-DD HH24:MI:SS.MM') AS CNG_DATE, CNG_ID
-            FROM TB_EXC_REC_REP
-            WHERE 1=1
-            <include refid = "searchChk"/>
-            ORDER BY EXC_DATE DESC
-            LIMIT #{recordCountPerPage} OFFSET #{firstIndex}      
-    </select>
-    
-    <!-- 수행실적 신고 등록  -->
-    <insert id="insertEPRExcPerRepMngt" parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO">
-        
-            INSERT INTO TB_EXC_REC_REP 
-                  ( EXC_DATE
-                  , EXC_PER_REP_NAME
-                  , PROGRS_STAT_CODE
-                  , REG_DATE)
-           VALUES ( 
-           			TO_DATE(#{excDate}, 'YYYY-MM-DD') 
-                  , #{excPerRepName}
-                  , '0001'
-                  , CURRENT_TIMESTAMP)         
-    </insert>    
+
+	<!-- 데이터 카운트 -->
+	<select id="selectEPRExcPerRepMngtListTotCnt"
+		parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO"
+		resultType="int">
+		SELECT COUNT(EXC_PER_REP_SEQ) AS totcnt
+		FROM TB_EXC_REC_REP
+		WHERE 1=1
+		<include refid="searchChkEPRExcPerRepMngtList" />
+	</select>
+
+	<!-- 수행실적 목록 조회 -->
+	<select id="selectEPRExcPerRepMngtList"
+		parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO"
+		resultMap="eprExcPerRepMngtVO">
+		SELECT
+		EXC_PER_REP_SEQ
+		, EXC_PER_REP_NAME
+		, PROGRS_STAT_CODE
+		, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE = PROGRS_STAT_CODE AND CODE_ID = 'PMS001') AS PROGRS_STAT_NAME
+		, TO_CHAR(EXC_DATE, 'YYYY') AS EXC_DATE
+		, TO_CHAR(REG_DATE, 'YYYY-MM-DD') AS REG_DATE, REG_ID
+		, TO_CHAR(CNG_DATE, 'YYYY-MM-DD') AS CNG_DATE, CNG_ID
+		FROM TB_EXC_REC_REP
+		WHERE 1=1
+		<include refid="searchChkEPRExcPerRepMngtList" />
+		ORDER BY EXC_DATE DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+
+	<!-- 수행실적 신고 등록 -->
+	<insert id="insertEPRExcPerRepMngt"
+		parameterType="egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO">
+
+		INSERT INTO TB_EXC_REC_REP
+		( EXC_DATE
+		, EXC_PER_REP_NAME
+		, PROGRS_STAT_CODE
+		, REG_DATE
+		, CNG_DATE)
+		VALUES (
+		TO_DATE(#{excDate}, 'YYYY-MM-DD')
+		, #{excPerRepName}
+		, '0001'
+		, CURRENT_TIMESTAMP
+		, CURRENT_TIMESTAMP)
+	</insert>
+
+	<resultMap id="eqpmnRepVwVO" type="egovframework.com.lhb.epr.service.EqpmnRepVwVO">
+		<result property="excPerRepSeq" column="EXC_PER_REP_SEQ" />
+		<result property="eqpmnNo" column="EQPMN_NO" />
+		<result property="eqpmnName" column="EQPMN_NAME" />
+		<result property="stndrd" column="STNDRD" />
+		<result property="regNo" column="REG_NO" />
+		<result property="gradCode" column="GRAD_CODE" />
+		<result property="gradName" column="GRAD_NAME" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="regId" column="REG_ID" />
+		<result property="cngDate" column="CNG_DATE" />
+		<result property="cngId" column="CNG_ID" />
+		<result property="delDate" column="DEL_DATE" />
+		<result property="delId" column="DEL_ID" />
+	</resultMap>
+
+	<sql id="searchChkEPRExcPerRepMngtDetailLists">
+		AND DEL_DATE IS NULL
+		<if test="searchExcPerRepSeq != null and searchExcPerRepSeq !=''">
+			AND EXC_PER_REP_SEQ = #{searchExcPerRepSeq}
+		</if>
+	</sql>
+
+	<!-- 장비신고 카운트 -->
+	<select id="selectEqpmnRepVwListTotCnt"
+		parameterType="egovframework.com.lhb.epr.service.EqpmnRepVwVO"
+		resultMap="eqpmnRepVwVO">
+		SELECT 
+			COUNT(EQPMN_NO) totcnt
+		FROM TB_EQPMN_REP
+		WHERE 1=1
+		<include refid="searchChkEPRExcPerRepMngtDetailLists" />
+	</select>
+	
+	<!-- 장비신고 조회 -->
+	<select id="selectEqpmnRepVwList"
+		parameterType="egovframework.com.lhb.epr.service.EqpmnRepVwVO"
+		resultMap="eqpmnRepVwVO">
+		SELECT 
+		EXC_PER_REP_SEQ
+		, EQPMN_NO
+		, EQPMN_NAME
+		, STNDRD
+		, REG_NO
+		, GRAD_CODE
+		, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE = GRAD_CODE AND CODE_ID = 'PMS002') AS GRAD_NAME
+		, TO_CHAR(REG_DATE, 'YYYY-MM-DD') as REG_DATE
+		, TO_CHAR(CNG_DATE, 'YYYY-MM-DD') as CNG_DATE
+		, TO_CHAR(DEL_DATE, 'YYYY-MM-DD') as DEL_DATE
+		FROM TB_EQPMN_REP
+		WHERE 1=1
+		<include refid="searchChkEPRExcPerRepMngtDetailLists" />
+		ORDER BY REG_DATE DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+
+
+	<resultMap id="excPerRepVO" type="egovframework.com.lhb.epr.service.ExcPerRepVO">
+		<result property="excPerRepSeq" column="EXC_PER_REP_SEQ" />
+		<result property="perNo" column="PER_NO" />
+		<result property="servcName" column="SERVC_NAME" />
+		<result property="servcSeCode" column="SERVC_SE_CODE" />
+		<result property="servcSeName" column="SERVC_SE_NAME" />
+		<result property="cntrctAmount" column="CNTRCT_AMOUNT" />
+		<result property="chargerName" column="CHARGER_NAME" />
+		<result property="servc" column="SERVC" />
+		<result property="regDate" column="REG_DATE" />
+		<result property="regId" column="REG_ID" />
+		<result property="cngDate" column="CNG_DATE" />
+		<result property="cngId" column="CNG_ID" />
+		<result property="delDate" column="DEL_DATE" />
+		<result property="delId" column="DEL_ID" />
+	</resultMap>
+
+	<!-- 실적신고 카운트 -->
+	<select id="selectExcPerListTotCnt"
+		parameterType="egovframework.com.lhb.epr.service.ExcPerRepVO"
+		resultMap="excPerRepVO">
+		SELECT
+		COUNT(PER_NO) totcnt
+		FROM TB_PER_REP
+		WHERE 1=1
+		<include refid="searchChkEPRExcPerRepMngtDetailLists" />
+	</select>
+	
+	<!-- 실적신고 조회 -->
+		<select id="selectExcPerList"
+		parameterType="egovframework.com.lhb.epr.service.ExcPerRepVO"
+		resultMap="excPerRepVO">
+		SELECT 
+		EXC_PER_REP_SEQ
+		, PER_NO, SERVC_NAME
+		, SERVC_SE_CODE
+		, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE = SERVC_SE_CODE AND CODE_ID = 'PMS003') AS SERVC_SE_NAME
+		, CNTRCT_AMOUNT
+		, CHARGER_NAME
+		, SERVC
+		, TO_CHAR(REG_DATE, 'YYYY-MM-DD') as REG_DATE
+		, TO_CHAR(CNG_DATE, 'YYYY-MM-DD') as CNG_DATE
+		, TO_CHAR(DEL_DATE, 'YYYY-MM-DD') as DEL_DATE
+		FROM TB_PER_REP
+		WHERE 1=1
+		<include refid="searchChkEPRExcPerRepMngtDetailLists" />
+		ORDER BY REG_DATE DESC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
 </mapper>

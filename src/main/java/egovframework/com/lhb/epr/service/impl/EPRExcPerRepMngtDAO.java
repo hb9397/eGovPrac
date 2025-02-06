@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.com.cmm.service.impl.EgovComAbstractDAO;
 import egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO;
-import egovframework.com.sec.ram.service.AuthorManage;
+import egovframework.com.lhb.epr.service.EqpmnRepVwVO;
+import egovframework.com.lhb.epr.service.ExcPerRepVO;
 
 @Repository("eprExcPerRepMngtDAO")
 public class EPRExcPerRepMngtDAO extends EgovComAbstractDAO{
@@ -23,5 +24,19 @@ public class EPRExcPerRepMngtDAO extends EgovComAbstractDAO{
         insert("eprExcPerRepMngtDAO.insertEPRExcPerRepMngt", eprExcPerRepMngtVO);
     }
     
-    
+    public int selectEqpmnRepVwListTotCnt(EqpmnRepVwVO eqpmnRepVwVO)  throws Exception {
+        return (Integer)selectOne("eprExcPerRepMngtDAO.selectEqpmnRepVwListTotCnt", eqpmnRepVwVO);
+    }
+	
+	public List<EqpmnRepVwVO> selectEqpmnRepVwList(EqpmnRepVwVO eqpmnRepVwVO) throws Exception {
+        return selectList("eprExcPerRepMngtDAO.selectEqpmnRepVwList", eqpmnRepVwVO);
+    }
+	
+	public int selectExcPerListTotCnt(ExcPerRepVO excPerRepVO)  throws Exception {
+        return (Integer)selectOne("eprExcPerRepMngtDAO.selectExcPerListTotCnt", excPerRepVO);
+    }
+	
+	public List<ExcPerRepVO> selectExcPerList(ExcPerRepVO excPerRepVO) throws Exception {
+        return selectList("eprExcPerRepMngtDAO.selectEqpmnRepVwList", excPerRepVO);
+    }
 }

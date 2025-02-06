@@ -25,6 +25,7 @@ th, td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
+    height: 2rem
 }
 
 th {
@@ -39,7 +40,6 @@ button {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 10px;
 }
 
 button:hover {
@@ -83,3 +83,5 @@ button:hover {
     height: 25px;
     text-align: center;
 }
+
+

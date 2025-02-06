@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import egovframework.com.lhb.epr.service.EPRExcPerRepMngtService;
 import egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO;
+import egovframework.com.lhb.epr.service.EqpmnRepVwVO;
+import egovframework.com.lhb.epr.service.ExcPerRepVO;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -27,5 +29,25 @@ public class EPRExcPerRepMngtServiceImpl extends EgovAbstractServiceImpl impleme
 	@Override
 	public void insertEPRExcPerRepMngt(EPRExcPerRepMngtVO eprExcPerRepMngtVO) throws Exception {
 		eprExcPerRepMngtDAO.insertEPRExcPerRepMngt(eprExcPerRepMngtVO);
+	}
+
+	@Override
+	public int selectEqpmnRepVwListTotCnt(EqpmnRepVwVO eqpmnRepVwVO) throws Exception {
+		return eprExcPerRepMngtDAO.selectEqpmnRepVwListTotCnt(eqpmnRepVwVO);
+	}
+
+	@Override
+	public List<EqpmnRepVwVO> selectEqpmnRepVwList(EqpmnRepVwVO eqpmnRepVwVO) throws Exception {
+		return eprExcPerRepMngtDAO.selectEqpmnRepVwList(eqpmnRepVwVO);
+	}
+
+	@Override
+	public int selectExcPerListTotCnt(ExcPerRepVO excPerRepVO) throws Exception {
+		return eprExcPerRepMngtDAO.selectExcPerListTotCnt(excPerRepVO);
+	}
+
+	@Override
+	public List<ExcPerRepVO> selectExcPerList(ExcPerRepVO excPerRepVO) throws Exception {
+		return eprExcPerRepMngtDAO.selectExcPerList(excPerRepVO);
 	}
 }

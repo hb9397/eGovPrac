@@ -10,10 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <title>수행실적목록 조회</title>
-<link type="text/css" rel="stylesheet"
-	href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
-<link type="text/css" rel="stylesheet"
-	href="<c:url value='/css/egovframework/com/lhb/epr/EPRExcPerRepMngt.css' />">
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/cmm/jqueryui.css' />">
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/com/lhb/epr/EPRExcPerRepMngt.css' />">
 
 <script>
 	function fncSelectEPRExcPerRepMngtList() {
@@ -69,6 +67,12 @@
 		document.listForm.action = ("<c:url value='/lhb/epr/insertExcPerRep.do'/>");
 		document.listForm.submit();
 	}
+	function fncSelectEPRExcPerRepMngtListDetail(excPerRepSeq) {
+	    // 원하는 URL로 이동
+	    document.listForm.excPerRepSeq.value = excPerRepSeq;
+	    document.listForm.action = ("<c:url value='/lhb/epr/selectExcPerRepDtlVw.do'/>");
+	    document.listForm.submit();
+	}
 </script>
 </head>
 
@@ -86,8 +90,7 @@
 			<div class="search-section">
 				<h3 style="margin-bottom: 15px">▶ 조회조건</h3>
 				<div style="margin-bottom: 10px">
-					<label for="year">수행년도</label> <select class="yearSelector"
-						id="yearSelector">
+					<label for="year">수행년도</label> <select class="yearSelector" id="yearSelector">
 						<script>
 							const yearSelect = document
 									.getElementById("yearSelector");
@@ -136,24 +139,19 @@
 										});
 					</script>
 					<!-- listForm에 hidden input 추가 -->
-					<input type="hidden" name="searchExcDate" id="selectedYear"
-						value="<c:out value='${eprExcPerRepMngtVO.searchExcDate}'/>" />
+					<input type="hidden" name="searchExcDate" id="selectedYear" value="<c:out value='${eprExcPerRepMngtVO.searchExcDate}'/>" />
 
 				</div>
 				<div style="margin-bottom: 1rem">
-					<label>수행명</label> <input type="text" style="margin-left: 0.8rem"
-						name="searchExcPerRepName"
-						value="<c:out value='${eprExcPerRepMngtVO.searchExcPerRepName}'/>">
+					<label>수행명</label> <input type="text" style="margin-left: 0.8rem" name="searchExcPerRepName" value="<c:out value='${eprExcPerRepMngtVO.searchExcPerRepName}'/>">
 				</div>
 				<div>
-					<input type="button" class="long_btn" value="조회" title="조회"
-						onClick="fncSelectEPRExcPerRepMngtList();" />
+					<input type="button" class="long_btn" value="조회" title="조회" onClick="fncSelectEPRExcPerRepMngtList();" />
 				</div>
 			</div>
 
 			<div class="results-section mt10">
-				<div
-					style="width: 100%; display: flex; justify-content: space-between; align-items: center">
+				<div style="width: 100%; display: flex; justify-content: space-between; align-items: center">
 					<h3>▶ 수행실적 조회내역</h3>
 					<button type="button" class="btn" onClick="openModal();">등록</button>
 				</div>
@@ -165,7 +163,7 @@
 							<th class="table-header">수행년도</th>
 							<th class="table-header">수행명</th>
 							<th class="table-header">진행상태</th>
-							<th class="table-header">수정일시</th>
+							<th class="table-header">등록일시</th>
 
 						</tr>
 					</thead>
@@ -175,20 +173,21 @@
 								<td colspan="4"><spring:message code="common.nodata.msg" /></td>
 							</tr>
 						</c:if>
-						<c:forEach var="eprExcPerRepMngList"
-							items="${eprExcPerRepMngList}" varStatus="status">
+						<c:forEach var="eprExcPerRepMngList" items="${eprExcPerRepMngList}" varStatus="status">
 							<tr>
 								<%-- <td><input type="checkbox" name="delYn" class="check2" title="선택"><input type="hidden" name="checkId" value="<c:out value="${author.authorCode}"/>" /></td> --%>
 								<%-- <td><a href="#LINK"
 								onclick="javascript:fncSelectAuthor('<c:out value="${eprExcPerRepMngList.excDate}"/>')"><c:out
 										value="${author.authorCode}" /></a></td> --%>
 
-								<td class="table-cell"><c:out
-										value="${eprExcPerRepMngList.excDate}" /></td>
-								<td class="table-cell"><c:out
-										value="${eprExcPerRepMngList.excPerRepName}" /></td>
-								<td class="table-cell"><c:out
-										value="${eprExcPerRepMngList.progrsStatName}" /></td>
+								<td class="table-cell">
+									<a href="javascript:void(0);" style="color: blue; text-decoration: underline; cursor: pointer;" onclick="javascript:fncSelectEPRExcPerRepMngtListDetail('<c:out value="${eprExcPerRepMngList.excPerRepSeq}" />');"> 
+										<c:out value="${eprExcPerRepMngList.excDate}" />
+										
+									</a>
+								</td>
+								<td class="table-cell"><c:out value="${eprExcPerRepMngList.excPerRepName}" /></td>
+								<td class="table-cell"><c:out value="${eprExcPerRepMngList.progrsStatName}" /></td>
 								<td class="table-cell"><c:choose>
 										<c:when test="${not empty eprExcPerRepMngList.cngDate}">
 											<c:out value="${eprExcPerRepMngList.cngDate}" />
@@ -202,20 +201,17 @@
 
 				<c:if test="${!empty eprExcPerRepMngtVO.pageIndex }">
 					<!-- paging navigation -->
-					<div div class="pagination"
-						style="display: flex; justify-content: center; align-item: center; text-align: center; margin-top: 20px;">
-						<ul id="pagination"
-							style="display: flex; justify-content: center; align-item: center; text-align: center;">
-							<ui:pagination paginationInfo="${paginationInfo}" type="image"
-								jsFunction="linkPage" />
+					<div div class="pagination" style="display: flex; justify-content: center; align-item: center; text-align: center; margin-top: 20px;">
+						<ul id="pagination" style="display: flex; justify-content: center; align-item: center; text-align: center;">
+							<ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="linkPage" />
 						</ul>
 					</div>
 				</c:if>
 			</div>
 		</div>
-		<input type="hidden" name="pageIndex"
-			value="<c:out value='${eprExcPerRepMngtVO.pageIndex}'/>" />
-
+		<input type="hidden" name="pageIndex" value="<c:out value='${eprExcPerRepMngtVO.pageIndex}'/>" />
+		<input type="hidden" name="excPerRepSeq" value="<c:out value='${eqpmnRepVwVO.excPerRepSeq}'/>" />
+		<input type="hidden" name="excPerRepSeq"  value="<c:out value='${excPerRepVO.excPerRepSeq}'/>"/>
 		<!-- 모달 창 -->
 		<form id="excPerForm">
 			-->
@@ -224,16 +220,10 @@
 					<span class="close-btn" onclick="closeModal()">&times;</span>
 					<h2 style="margin-bottom: 20px">수행실적 신고 등록</h2>
 
-					<label for="excDate"><span class="required">*</span> 수행년도</label> <input
-						type="text" id="excDate" name="excDate"
-						value="<c:out value='${eprExcPerRepMngtVO.excDate}'/>"> <label
-						for="excPerRepName"><span class="required">*</span> 수행 명</label> <input
-						type="text" id="excPerRepName" name="excPerRepName"
-						value="<c:out value='${eprExcPerRepMngtVO.excPerRepName}'/>">
+					<label for="excDate"><span class="required">*</span> 수행년도</label> <input type="text" id="excDate" name="excDate" value="<c:out value='${eprExcPerRepMngtVO.excDate}'/>"> <label for="excPerRepName"><span class="required">*</span> 수행 명</label> <input type="text" id="excPerRepName" name="excPerRepName" value="<c:out value='${eprExcPerRepMngtVO.excPerRepName}'/>">
 
 					<div class="button-container">
-						<button type="button" class="btn-save"
-							onClick="fncAddEPRExcPerRepMngtInsert();">저장</button>
+						<button type="button" class="btn-save" onClick="fncAddEPRExcPerRepMngtInsert();">저장</button>
 						<button type="button" class="btn-cancel" onclick="closeModal()">취소</button>
 					</div>
 				</div>
