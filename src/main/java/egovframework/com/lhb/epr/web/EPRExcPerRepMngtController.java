@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
@@ -19,9 +20,12 @@ import egovframework.com.lhb.epr.service.EPRExcPerRepMngtService;
 import egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO;
 import egovframework.com.lhb.epr.service.EqpmnRepVwVO;
 import egovframework.com.lhb.epr.service.ExcPerRepVO;
+import egovframework.com.lhb.epr.service.SearchExcPerRepDtlVO;
 import egovframework.com.sym.mnu.mpm.service.MenuManageVO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RequiredArgsConstructor
 @Controller
 @SessionAttributes(types = SessionVO.class)
@@ -90,54 +94,49 @@ public class EPRExcPerRepMngtController {
 	@RequestMapping("/selectExcPerRepDtlVw.do")
 	public String selectExcPerRepDtlVw(
 			@ModelAttribute("menuManageVO") MenuManageVO menuManageVO,
-			@ModelAttribute("eqpmnRepVwVO") EqpmnRepVwVO eqpmnRepVwVO,
-			@ModelAttribute("excPerRepVO") ExcPerRepVO excPerRepVO, 
+			@ModelAttribute("searchExcPerRepDtlVO") SearchExcPerRepDtlVO searchExcPerRepDtlVO,
 			ModelMap model)
 			throws Exception {
-		
-		 // 장비 
-		 PaginationInfo paginationInfoEqpmnRepVw = new PaginationInfo();
-		 paginationInfoEqpmnRepVw.setCurrentPageNo(eqpmnRepVwVO.getPageIndex());
-		 paginationInfoEqpmnRepVw.setRecordCountPerPage(eqpmnRepVwVO.getPageUnit());
-		 paginationInfoEqpmnRepVw.setPageSize(eqpmnRepVwVO.getPageSize());
-		 
-		 eqpmnRepVwVO.setFirstIndex(paginationInfoEqpmnRepVw.getFirstRecordIndex());
-		 eqpmnRepVwVO.setLastIndex(paginationInfoEqpmnRepVw.getLastRecordIndex());
-		 eqpmnRepVwVO.setRecordCountPerPage(paginationInfoEqpmnRepVw.getRecordCountPerPage());
-		 
-		 eqpmnRepVwVO.setSearchExcPerRepSeq(eqpmnRepVwVO.getExcPerRepSeq());
-		 eqpmnRepVwVO.setEqpmnRepVwVOList(eprExcPerRepMngtService.selectEqpmnRepVwList(eqpmnRepVwVO));
-		 model.addAttribute("eqpmnRepVwList",eqpmnRepVwVO.getEqpmnRepVwVOList());
-		 
-		 int totCntEqpmnVw = eprExcPerRepMngtService.selectEqpmnRepVwListTotCnt(eqpmnRepVwVO);
-		 paginationInfoEqpmnRepVw.setTotalRecordCount(totCntEqpmnVw);
-		 
-		 model.addAttribute("paginationInfoEqpmnRepVw", paginationInfoEqpmnRepVw);
-		 
-		 // 실적
-		 PaginationInfo paginationInfoExcPerRep = new PaginationInfo();
-		 paginationInfoExcPerRep.setCurrentPageNo(excPerRepVO.getPageIndex());
-		 paginationInfoExcPerRep.setRecordCountPerPage(excPerRepVO.getPageUnit());
-		 paginationInfoExcPerRep.setPageSize(excPerRepVO.getPageSize());
-		 
-		 excPerRepVO.setFirstIndex(paginationInfoExcPerRep.getFirstRecordIndex());
-		 excPerRepVO.setLastIndex(paginationInfoExcPerRep.getLastRecordIndex());
-		 excPerRepVO.setRecordCountPerPage(paginationInfoExcPerRep.getRecordCountPerPage());
-		 
-		 excPerRepVO.setSearchExcPerRepSeq(excPerRepVO.getExcPerRepSeq());
-		 excPerRepVO.setExcPerRepVOList(eprExcPerRepMngtService.selectExcPerList(excPerRepVO));
-		 model.addAttribute("excPerRepList",excPerRepVO.getExcPerRepVOList());
-		 
-		 int totCntExcPer = eprExcPerRepMngtService.selectExcPerListTotCnt(excPerRepVO);
-		 paginationInfoExcPerRep.setTotalRecordCount(totCntExcPer);
-		 
-		 model.addAttribute("paginationInfoExcPerRep", paginationInfoExcPerRep);
-		 
-		 
-		 model.addAttribute("list_headmenu", eprUtil.includeMenulist(menuManageVO));
-		 model.addAttribute("message",egovMessageSource.getMessage("success.common.select"));
+	
+	    PaginationInfo paginationInfoEqpmnRepVw = new PaginationInfo();
+	    paginationInfoEqpmnRepVw.setCurrentPageNo(searchExcPerRepDtlVO.getEqpmnRepPageIndex());
+	    paginationInfoEqpmnRepVw.setRecordCountPerPage(searchExcPerRepDtlVO.getEqpmnRepRecordCountPerPage());
+	    paginationInfoEqpmnRepVw.setPageSize(searchExcPerRepDtlVO.getEqpmnRepPageSize());
 
-		return "egovframework/com/lhb/epr/EPRExcPerRepMngtDetail";
+	    searchExcPerRepDtlVO.setPaginationInfoForEqpmnRep(paginationInfoEqpmnRepVw);
+
+
+	    EqpmnRepVwVO eqpmnRepVwVO = new EqpmnRepVwVO();
+	    eqpmnRepVwVO.setSearchExcPerRepSeq(searchExcPerRepDtlVO.getSearchExcPerRepSeq());
+	    eqpmnRepVwVO.setEqpmnRepVwVOList(eprExcPerRepMngtService.selectEqpmnRepVwList(searchExcPerRepDtlVO));
+
+	    model.addAttribute("eqpmnRepVwList", eqpmnRepVwVO.getEqpmnRepVwVOList());
+
+	    int totCntEqpmnVw = eprExcPerRepMngtService.selectEqpmnRepVwListTotCnt(searchExcPerRepDtlVO);
+	    paginationInfoEqpmnRepVw.setTotalRecordCount(totCntEqpmnVw);
+	    model.addAttribute("paginationInfoEqpmnRepVw", paginationInfoEqpmnRepVw);
+	    
+	    PaginationInfo paginationInfoExcPerRep = new PaginationInfo();
+	    paginationInfoExcPerRep.setCurrentPageNo(searchExcPerRepDtlVO.getExcPerRepPageIndex());
+	    paginationInfoExcPerRep.setRecordCountPerPage(searchExcPerRepDtlVO.getExcPerRepRecordCountPerPage());
+	    paginationInfoExcPerRep.setPageSize(searchExcPerRepDtlVO.getExcPerRepPageSize());
+
+	    searchExcPerRepDtlVO.setPaginationInfoForExcPerRep(paginationInfoExcPerRep);
+
+	    ExcPerRepVO excPerRepVO = new ExcPerRepVO();
+	    excPerRepVO.setSearchExcPerRepSeq(searchExcPerRepDtlVO.getSearchExcPerRepSeq());
+	    excPerRepVO.setExcPerRepVOList(eprExcPerRepMngtService.selectExcPerList(searchExcPerRepDtlVO));
+
+	    model.addAttribute("excPerRepList", excPerRepVO.getExcPerRepVOList());
+
+	    int totCntExcPer = eprExcPerRepMngtService.selectExcPerListTotCnt(searchExcPerRepDtlVO);
+	    paginationInfoExcPerRep.setTotalRecordCount(totCntExcPer);
+	    model.addAttribute("paginationInfoExcPerRep", paginationInfoExcPerRep);
+
+	    model.addAttribute("list_headmenu", eprUtil.includeMenulist(menuManageVO));
+	    model.addAttribute("message", egovMessageSource.getMessage("success.common.select"));
+
+	    return "egovframework/com/lhb/epr/EPRExcPerRepMngtDetail";
 
 	}
 }

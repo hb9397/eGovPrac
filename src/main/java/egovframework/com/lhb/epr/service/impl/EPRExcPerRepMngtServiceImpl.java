@@ -9,6 +9,7 @@ import egovframework.com.lhb.epr.service.EPRExcPerRepMngtService;
 import egovframework.com.lhb.epr.service.EPRExcPerRepMngtVO;
 import egovframework.com.lhb.epr.service.EqpmnRepVwVO;
 import egovframework.com.lhb.epr.service.ExcPerRepVO;
+import egovframework.com.lhb.epr.service.SearchExcPerRepDtlVO;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -32,22 +33,22 @@ public class EPRExcPerRepMngtServiceImpl extends EgovAbstractServiceImpl impleme
 	}
 
 	@Override
-	public int selectEqpmnRepVwListTotCnt(EqpmnRepVwVO eqpmnRepVwVO) throws Exception {
-		return eprExcPerRepMngtDAO.selectEqpmnRepVwListTotCnt(eqpmnRepVwVO);
+	public int selectEqpmnRepVwListTotCnt(SearchExcPerRepDtlVO searchExcPerRepDtlVO) throws Exception {
+		return eprExcPerRepMngtDAO.selectEqpmnRepVwListTotCnt(searchExcPerRepDtlVO);
 	}
 
 	@Override
-	public List<EqpmnRepVwVO> selectEqpmnRepVwList(EqpmnRepVwVO eqpmnRepVwVO) throws Exception {
-		return eprExcPerRepMngtDAO.selectEqpmnRepVwList(eqpmnRepVwVO);
+	public List<EqpmnRepVwVO> selectEqpmnRepVwList(SearchExcPerRepDtlVO searchExcPerRepDtlVO) throws Exception {
+		return eprExcPerRepMngtDAO.selectEqpmnRepVwList(searchExcPerRepDtlVO);
 	}
 
 	@Override
-	public int selectExcPerListTotCnt(ExcPerRepVO excPerRepVO) throws Exception {
-		return eprExcPerRepMngtDAO.selectExcPerListTotCnt(excPerRepVO);
+	public int selectExcPerListTotCnt(SearchExcPerRepDtlVO searchExcPerRepDtlVO) throws Exception {
+		return eprExcPerRepMngtDAO.selectExcPerListTotCnt(searchExcPerRepDtlVO);
 	}
 
 	@Override
-	public List<ExcPerRepVO> selectExcPerList(ExcPerRepVO excPerRepVO) throws Exception {
-		return eprExcPerRepMngtDAO.selectExcPerList(excPerRepVO);
+	public List<ExcPerRepVO> selectExcPerList(SearchExcPerRepDtlVO searchExcPerRepDtlVO) throws Exception {
+		return eprExcPerRepMngtDAO.selectExcPerList(searchExcPerRepDtlVO);
 	}
 }

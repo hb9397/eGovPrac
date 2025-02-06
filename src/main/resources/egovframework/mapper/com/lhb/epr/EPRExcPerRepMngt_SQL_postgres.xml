@@ -98,8 +98,8 @@
 
 	<!-- 장비신고 카운트 -->
 	<select id="selectEqpmnRepVwListTotCnt"
-		parameterType="egovframework.com.lhb.epr.service.EqpmnRepVwVO"
-		resultMap="eqpmnRepVwVO">
+		parameterType="egovframework.com.lhb.epr.service.SearchExcPerRepDtlVO"
+		resultType="int">
 		SELECT 
 			COUNT(EQPMN_NO) totcnt
 		FROM TB_EQPMN_REP
@@ -109,7 +109,7 @@
 	
 	<!-- 장비신고 조회 -->
 	<select id="selectEqpmnRepVwList"
-		parameterType="egovframework.com.lhb.epr.service.EqpmnRepVwVO"
+		parameterType="egovframework.com.lhb.epr.service.SearchExcPerRepDtlVO"
 		resultMap="eqpmnRepVwVO">
 		SELECT 
 		EXC_PER_REP_SEQ
@@ -126,7 +126,7 @@
 		WHERE 1=1
 		<include refid="searchChkEPRExcPerRepMngtDetailLists" />
 		ORDER BY REG_DATE DESC
-		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+		LIMIT #{eqpmnRepRecordCountPerPage} OFFSET #{eqpmnRepFirstIndex}
 	</select>
 
 
@@ -149,8 +149,8 @@
 
 	<!-- 실적신고 카운트 -->
 	<select id="selectExcPerListTotCnt"
-		parameterType="egovframework.com.lhb.epr.service.ExcPerRepVO"
-		resultMap="excPerRepVO">
+		parameterType="egovframework.com.lhb.epr.service.SearchExcPerRepDtlVO"
+		resultType="int">
 		SELECT
 		COUNT(PER_NO) totcnt
 		FROM TB_PER_REP
@@ -160,11 +160,12 @@
 	
 	<!-- 실적신고 조회 -->
 		<select id="selectExcPerList"
-		parameterType="egovframework.com.lhb.epr.service.ExcPerRepVO"
+		parameterType="egovframework.com.lhb.epr.service.SearchExcPerRepDtlVO"
 		resultMap="excPerRepVO">
 		SELECT 
 		EXC_PER_REP_SEQ
-		, PER_NO, SERVC_NAME
+		, PER_NO
+		, SERVC_NAME
 		, SERVC_SE_CODE
 		, (SELECT CODE_NM FROM COMTCCMMNDETAILCODE WHERE CODE = SERVC_SE_CODE AND CODE_ID = 'PMS003') AS SERVC_SE_NAME
 		, CNTRCT_AMOUNT
@@ -177,6 +178,6 @@
 		WHERE 1=1
 		<include refid="searchChkEPRExcPerRepMngtDetailLists" />
 		ORDER BY REG_DATE DESC
-		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+		LIMIT #{excPerRepRecordCountPerPage} OFFSET #{excPerRepFirstIndex}
 	</select>
 </mapper>

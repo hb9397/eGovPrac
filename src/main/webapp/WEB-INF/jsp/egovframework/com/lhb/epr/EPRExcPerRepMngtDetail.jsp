@@ -28,7 +28,7 @@
 		document.getElementById(id).style.display = "none";
 	}
 	function getAllExcPerRepSeq() {
-		console.log(${param.excModalPerRepSeq});
+		console.log(${param});
 		
 	}
 
@@ -80,13 +80,13 @@
 								<td colspan=""><spring:message code="common.nodata.msg" /></td>
 							</tr>
 						</c:if>
-						<c:forEach var="eqpmnRepVwList" items="${eqpmnRepVwList}" varStatus="status">
+						<c:forEach var="eqpmnRepVw" items="${eqpmnRepVwList}" varStatus="status">
 							<tr>
-								<td class="table-cell"><c:out value="${eqpmnRepVwList.eqpmnNo}" /></td>
-								<td class="table-cell"><c:out value="${eqpmnRepVwList.eqpmnName}" /></td>
-								<td class="table-cell"><c:out value="${eqpmnRepVwList.stndrd}" /></td>
-								<td class="table-cell"><c:out value="${eqpmnRepVwList.regNo}" /></td>
-								<td class="table-cell"><c:out value="${eqpmnRepVwList.gradName}" /></td>
+								<td class="table-cell"><c:out value="${eqpmnRepVw.eqpmnNo}" /></td>
+								<td class="table-cell"><c:out value="${eqpmnRepVw.eqpmnName}" /></td>
+								<td class="table-cell"><c:out value="${eqpmnRepVw.stndrd}" /></td>
+								<td class="table-cell"><c:out value="${eqpmnRepVw.regNo}" /></td>
+								<td class="table-cell"><c:out value="${eqpmnRepVw.gradName}" /></td>
 								<td><button>X</button></td>
 							</tr>
 						</c:forEach>
@@ -119,18 +119,19 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:if test="${fn:length(eqpmnRepVwList) == 0}">
+						<c:if test="${fn:length(excPerRepList) == 0}">
 							<tr>
 								<td colspan="6"><spring:message code="common.nodata.msg" /></td>
 							</tr>
 						</c:if>
-						<c:forEach var="eqpmnRepVwList" items="${excPerRepList}" varStatus="status">
-							<tr>
-								<td class="table-cell"><c:out value="${excPerRepList.perNo}" /></td>
-								<td class="table-cell"><c:out value="${excPerRepList.servcName}" /></td>
-								<td class="table-cell"><c:out value="${excPerRepList.servcSeName}" /></td>
-								<td class="table-cell"><c:out value="${excPerRepList.cntrctAmount}" /></td>
-								<td class="table-cell"><c:out value="${excPerRepList.chargerName}" /></td>
+						<c:forEach var="excPerRep" items="${excPerRepList}" varStatus="status">\
+							<p>perNo: ${excPerRep.perNo}</p>
+							<<tr>
+								<td class="table-cell"><c:out value="${excPerRep.perNo}" /></td>
+								<td class="table-cell"><c:out value="${excPerRep.servcName}" /></td>
+								<td class="table-cell"><c:out value="${excPerRep.servcSeName}" /></td>
+								<td class="table-cell"><c:out value="${excPerRep.cntrctAmount}" /></td>
+								<td class="table-cell"><c:out value="${excPerRep.chargerName}" /></td>
 								<td><button>X</button></td>
 							</tr>
 						</c:forEach>

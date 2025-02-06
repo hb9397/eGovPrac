@@ -67,11 +67,67 @@
 		document.listForm.action = ("<c:url value='/lhb/epr/insertExcPerRep.do'/>");
 		document.listForm.submit();
 	}
-	function fncSelectEPRExcPerRepMngtListDetail(excPerRepSeq) {
-	    // 원하는 URL로 이동
-	    document.listForm.excPerRepSeq.value = excPerRepSeq;
-	    document.listForm.action = ("<c:url value='/lhb/epr/selectExcPerRepDtlVw.do'/>");
-	    document.listForm.submit();
+	
+	
+	function fncSelectEPRExcPerRepMngtListDetail(searchExcPerSeq) {
+
+		let form = document.listForm;
+
+		let existingInput = document.getElementById("searchExcPerSeq");
+		if (existingInput) {
+			existingInput.remove();
+		}
+
+		// 수행 신고 시퀀스
+		let input = document.createElement("input");
+		input.type = "hidden";
+		input.name = "searchExcPerSeq";
+		input.id = "searchExcPerSeq";
+		input.value = searchExcPerSeq;
+		form.appendChild(input);
+
+		// 장비 신고 페이지네이션
+		let eqpmnRepPageIndex = document.createElement("input");
+		eqpmnRepPageIndex.type = "hidden";
+		eqpmnRepPageIndex.name = "eqpmnRepPageIndex";
+		eqpmnRepPageIndex.value = 1; // 기본 페이지 1
+		form.appendChild(eqpmnRepPageIndex);
+
+		let eqpmnRepRecordCountPerPage = document.createElement("input");
+		eqpmnRepRecordCountPerPage.type = "hidden";
+		eqpmnRepRecordCountPerPage.name = "eqpmnRepRecordCountPerPage";
+		eqpmnRepRecordCountPerPage.value = 5; 
+		form.appendChild(eqpmnRepRecordCountPerPage);
+
+		/* let eqpmnRepPageSize = document.createElement("input");
+		eqpmnRepPageSize.type = "hidden";
+		eqpmnRepPageSize.name = "eqpmnRepPageSize";
+		eqpmnRepPageSize.value = 5; // 페이지네이션 블록 크기
+		form.appendChild(eqpmnRepPageSize); */
+
+		// 실적 신고 페이지네이션
+		let excPerRepPageIndex = document.createElement("input");
+		excPerRepPageIndex.type = "hidden";
+		excPerRepPageIndex.name = "excPerRepPageIndex";
+		excPerRepPageIndex.value = 1;
+		form.appendChild(excPerRepPageIndex);
+
+		let excPerRepRecordCountPerPage = document.createElement("input");
+		excPerRepRecordCountPerPage.type = "hidden";
+		excPerRepRecordCountPerPage.name = "excPerRepRecordCountPerPage";
+		excPerRepRecordCountPerPage.value = 5;
+		form.appendChild(excPerRepRecordCountPerPage);
+
+		/* let excPerRepPageSize = document.createElement("input");
+		excPerRepPageSize.type = "hidden";
+		excPerRepPageSize.name = "excPerRepPageSize";
+		excPerRepPageSize.value = 5; // 페이지네이션 블록 크기
+		form.appendChild(excPerRepPageSize); */
+
+		// 폼 전송
+		form.action = ("<c:url value='/lhb/epr/selectExcPerRepDtlVw.do'/>");
+		form.submit();
+
 	}
 </script>
 </head>
@@ -210,8 +266,6 @@
 			</div>
 		</div>
 		<input type="hidden" name="pageIndex" value="<c:out value='${eprExcPerRepMngtVO.pageIndex}'/>" />
-		<input type="hidden" name="excPerRepSeq" value="<c:out value='${eqpmnRepVwVO.excPerRepSeq}'/>" />
-		<input type="hidden" name="excPerRepSeq"  value="<c:out value='${excPerRepVO.excPerRepSeq}'/>"/>
 		<!-- 모달 창 -->
 		<form id="excPerForm">
 			-->

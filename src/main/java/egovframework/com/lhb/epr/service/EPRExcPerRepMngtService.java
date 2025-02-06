@@ -12,11 +12,11 @@ public interface EPRExcPerRepMngtService {
 	
 	public void insertEPRExcPerRepMngt(EPRExcPerRepMngtVO eprExcPerRepMngtVO) throws Exception;
 	
-    public int selectEqpmnRepVwListTotCnt(EqpmnRepVwVO eqpmnRepVwVO)  throws Exception;
+    public int selectEqpmnRepVwListTotCnt(SearchExcPerRepDtlVO searchExcPerRepDtlVO)  throws Exception;
 	
-	public List<EqpmnRepVwVO> selectEqpmnRepVwList(EqpmnRepVwVO eqpmnRepVwVO) throws Exception;
+	public List<EqpmnRepVwVO> selectEqpmnRepVwList(SearchExcPerRepDtlVO searchExcPerRepDtlVO) throws Exception;
 	
-	public int selectExcPerListTotCnt(ExcPerRepVO excPerRepVO)  throws Exception;
+	public int selectExcPerListTotCnt(SearchExcPerRepDtlVO searchExcPerRepDtlVO)  throws Exception;
 	
-	public List<ExcPerRepVO> selectExcPerList(ExcPerRepVO excPerRepVO) throws Exception;
+	public List<ExcPerRepVO> selectExcPerList(SearchExcPerRepDtlVO searchExcPerRepDtlVO) throws Exception;
 }
